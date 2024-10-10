@@ -45,7 +45,7 @@ app.get('/data', (req, res)=> {
 app.set('view engine', 'ejs');
 app.set('providers', __dirname + '/providers');
 app.get('/allproviders', (req, res) => {
-    const query = 'SELECT first_name, last_name, FROM providers';
+    const query = 'SELECT first_name,speciality, last_name, FROM providers';
     db.query(query, (err, results) => {
         if (err) throw err;
         res.json(results);
@@ -55,10 +55,10 @@ app.get('/allproviders', (req, res) => {
 
 app.set('view engine', 'ejs');
 app.set('allpat', __dirname + '/allpat');
-// Data is the name of the file inside views folder
+// allpatient is the name of the file inside views folder
 app.get('/allpatients', (req, res)=> {
     // Retrieve data from db
-    db.query('SELECT patient_id, first_name, last_name,date_of_birth FROM patients WHERE first_name = ?' , (err, results) => {
+    db.query('SELECT patient_id, first_name, FROM patients' , (err, results) => {
         if (err){
             console.error(err);
             res.status(500).send('Error retrieving data');
