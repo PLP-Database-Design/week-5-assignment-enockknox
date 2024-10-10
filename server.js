@@ -40,33 +40,30 @@ app.get('/data', (req, res)=> {
     });
 });
 
+
+// GET endpoint to retrieve all providers
 app.set('view engine', 'ejs');
-app.set('views', __dirname + '/sps');
-// Data is the name of the file inside views folder
-app.get('/pros', (req, res)=> {
-    // Retrieve data from db
-    db.query('SELECT * FROM providers', (err, results) => {
-        if (err){
-            console.error(err);
-            res.status(500).send('Error retrieving data');
-        } else {
-            res.render('pros', {results: results});
-        }
+app.set('providers', __dirname + '/providers');
+app.get('/allproviders', (req, res) => {
+    const query = 'SELECT first_name, last_name, FROM providers';
+    db.query(query, (err, results) => {
+        if (err) throw err;
+        res.json(results);
     });
 });
 
 
 app.set('view engine', 'ejs');
-app.set('views', __dirname + '/first');
-// last is the name of the file inside views folder
-app.get('/ftnm', (req, res)=> {
+app.set('allpat', __dirname + '/allpat');
+// Data is the name of the file inside views folder
+app.get('/allpatients', (req, res)=> {
     // Retrieve data from db
-    db.query( 'SELECT * FROM patients WHERE first_name = ?', (err, results) => {
+    db.query('SELECT patient_id, first_name, last_name,date_of_birth FROM patients WHERE first_name = ?' , (err, results) => {
         if (err){
             console.error(err);
             res.status(500).send('Error retrieving data');
         } else {
-            res.render('ftnm', {results: results});
+            res.render('data', {results: results});
         }
     });
 });
